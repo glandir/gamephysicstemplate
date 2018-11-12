@@ -31,6 +31,17 @@ void MassSpringSystemSimulator::initUI(DrawingUtilitiesClass * DUC)
 void MassSpringSystemSimulator::reset()
 {
 	m_mouse = m_trackmouse = m_oldtrackmouse = { 0, 0 };
+	switch (m_iTestCase) {
+	case 0:
+		runSingleStepTests();
+		break;
+	case 1:
+		setupSystem1();
+		break;
+	case 2:
+		setupSystem2();
+	default: break;
+	}
 }
 
 void MassSpringSystemSimulator::drawFrame(ID3D11DeviceContext * pd3dImmediateContext)
@@ -52,25 +63,12 @@ void MassSpringSystemSimulator::drawFrame(ID3D11DeviceContext * pd3dImmediateCon
 		DUC->drawSphere(p.pos * m_posScale, { m_massScale * float(p.mass) });
 	}
 	//std::cout << "-----." << std::endl;
-
-
 }
 
 void MassSpringSystemSimulator::notifyCaseChanged(int testCase)
 {
 	m_iTestCase = testCase;
-	switch (m_iTestCase) {
-	case 0:
-		runSingleStepTests();
-		break;
-	case 1:
-		setupSystem1();
-		break;
-	case 2:
-		setupSystem2();
-	default: break;
-	}
-
+	reset();
 }
 
 void MassSpringSystemSimulator::externalForcesCalculations(float timeElapsed)
@@ -275,7 +273,7 @@ void MassSpringSystemSimulator::runSingleStepTests()
 	}
 	std::cout << "One Step Simulation: ignoring timeStep value and using dt = 0.1" << std::endl;
 
-	std::string names[] = {"Euler", "Leapfrog (not implemented yet)", "Midpoint"};
+	std::string names[] = {"Euler", "Leapfrog", "Midpoint"};
 	for (int method : {EULER, LEAPFROG, MIDPOINT}) {
 		setupSystem1();
 		simulationStep(0.1f, method);
