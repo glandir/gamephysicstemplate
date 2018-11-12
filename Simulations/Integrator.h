@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Point.h"
+#include "MassSpringSystem.h"
 
 void eulerIntegrate(Points& points, float dt);
 void midpointIntegrate1(Points& points, OldPoints& oldpoints, float dt);

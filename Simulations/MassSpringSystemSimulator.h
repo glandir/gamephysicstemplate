@@ -2,7 +2,7 @@
 #define MASSSPRINGSYSTEMSIMULATOR_h
 
 #include "Simulator.h"
-#include "Point.h"
+#include "MassSpringSystem.h"
 #include "Integrator.h"
 
 // Do Not Change
@@ -50,21 +50,32 @@ public:
 	// more complex system with more points and springs
 	void setupSystem2();
 
+	// Advances the model by one time interval of length dt with the given integration method
 	void simulationStep(float dt, int integrator);
+	// Runs all integration methods for one step of length 0.1s and prints the results
 	void runSingleStepTests();
 
 private:
-	// Data Attributes
+	// Model Attributes
 	float m_fMass;
 	float m_fStiffness;
 	float m_fDamping;
-	int m_iIntegrator;
 
-	// UI Attributes
-	int m_iTestCase;
 	Vec3 m_externalForce;
 	Vec3 m_gravity;
 	Vec3 m_limits;
+
+	bool m_truncatePositions = false;
+	bool m_case1_done = false;
+
+	// Data Attributes
+	Points m_points;
+	Springs m_springs;
+	OldPoints m_oldPoints;
+
+	// UI Attributes
+	int m_iTestCase;
+	int m_iIntegrator;
 
 	Vec3  m_vfMovableObjectPos;
 	Vec3  m_vfMovableObjectFinalPos;
@@ -72,17 +83,11 @@ private:
 	Point2D m_mouse;
 	Point2D m_trackmouse;
 	Point2D m_oldtrackmouse;
-
-	Points m_points;
-	Springs m_springs;
-	OldPoints m_oldPoints;
-
-	bool m_case1_done = false;
-
+	
+	// Scale constants for rendering
 	static constexpr float m_massScale = 0.001f;
 	static constexpr float m_posScale = 0.1f;
 
-	bool m_truncatePositions = false;
 };
 
 #endif

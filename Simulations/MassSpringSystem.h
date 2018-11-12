@@ -1,5 +1,5 @@
-#ifndef POINT_H
-#define POINT_H
+#ifndef MASSSPRINGSYSTEM_H
+#define MASSSPRINGSYSTEM_H
 
 #include <vector>
 #include "util/vectorbase.h"
@@ -31,9 +31,13 @@ using Points = std::vector<Point>;
 using OldPoints = std::vector<OldPoint>;
 using Springs = std::vector<Spring>;
 
-void clearForce(Points& points);
-void applyExternal(Points& points, GamePhysics::Vec3 force_ext);
-void applySpringForce(Points& points, Springs& springs);
+void clearForces(Points& points);
+void applyExternalForces(Points& points, GamePhysics::Vec3 force_ext);
+void applySpringForces(Points& points, Springs& springs);
 
+// Implements a pseudo collision which simply pushes points back inside a rectangle
+// with corners (-limits, limits)
+// limits is assumed to be in octant I (+++)
 void truncatePositions(Points& points, GamePhysics::Vec3 limits);
-#endif // !POINT_H
+
+#endif //!MASSPRINGSYSTEM_H

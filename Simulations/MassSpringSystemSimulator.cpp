@@ -241,9 +241,9 @@ void MassSpringSystemSimulator::setupSystem2()
 
 void MassSpringSystemSimulator::simulationStep(float dt, int integrator)
 {
-	clearForce(m_points);
-	applyExternal(m_points, m_externalForce + m_gravity);
-	applySpringForce(m_points, m_springs);
+	clearForces(m_points);
+	applyExternalForces(m_points, m_externalForce + m_gravity);
+	applySpringForces(m_points, m_springs);
 
 	switch (integrator) {
 	case EULER:
@@ -254,9 +254,9 @@ void MassSpringSystemSimulator::simulationStep(float dt, int integrator)
 		break;
 	case MIDPOINT:
 		midpointIntegrate1(m_points, m_oldPoints, dt);
-		clearForce(m_points);
-		applyExternal(m_points, m_externalForce + m_gravity);
-		applySpringForce(m_points, m_springs);
+		clearForces(m_points);
+		applyExternalForces(m_points, m_externalForce + m_gravity);
+		applySpringForces(m_points, m_springs);
 		midpointIntegrate2(m_points, m_oldPoints, dt);
 		break;
 	default:
