@@ -1,6 +1,9 @@
 #ifndef MASSSPRINGSYSTEMSIMULATOR_h
 #define MASSSPRINGSYSTEMSIMULATOR_h
+
 #include "Simulator.h"
+#include "Point.h"
+#include "Integrator.h"
 
 // Do Not Change
 #define EULER 0
@@ -9,7 +12,7 @@
 // Do Not Change
 
 
-class MassSpringSystemSimulator:public Simulator{
+class MassSpringSystemSimulator:public Simulator {
 public:
 	// Construtors
 	MassSpringSystemSimulator();
@@ -42,6 +45,14 @@ public:
 		m_iIntegrator = integrator;
 	}
 
+	// Simple two point system from excercise sheet
+	void setupSystem1();
+	// more complex system with more points and springs
+	void setupSystem2();
+
+	void simulationStep(float dt, int integrator);
+	void runSingleStepTests();
+
 private:
 	// Data Attributes
 	float m_fMass;
@@ -50,9 +61,28 @@ private:
 	int m_iIntegrator;
 
 	// UI Attributes
+	int m_iTestCase;
 	Vec3 m_externalForce;
+	Vec3 m_gravity;
+	Vec3 m_limits;
+
+	Vec3  m_vfMovableObjectPos;
+	Vec3  m_vfMovableObjectFinalPos;
+
 	Point2D m_mouse;
 	Point2D m_trackmouse;
 	Point2D m_oldtrackmouse;
+
+	Points m_points;
+	Springs m_springs;
+	OldPoints m_oldPoints;
+
+	bool m_case1_done = false;
+
+	static constexpr float m_massScale = 0.001f;
+	static constexpr float m_posScale = 0.1f;
+
+	bool m_truncatePositions = false;
 };
+
 #endif
