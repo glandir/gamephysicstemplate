@@ -1,8 +1,7 @@
 #ifndef RIGIDBODYSYSTEMSIMULATOR_h
 #define RIGIDBODYSYSTEMSIMULATOR_h
 #include "Simulator.h"
-//add your header for your rigid body system, for e.g.,
-//#include "rigidBodySystem.h" 
+#include "Rigidbody.h"
 
 #define TESTCASEUSEDTORUNTEST 2
 
@@ -28,19 +27,31 @@ public:
 	Vec3 getLinearVelocityOfRigidBody(int i);
 	Vec3 getAngularVelocityOfRigidBody(int i);
 	void applyForceOnBody(int i, Vec3 loc, Vec3 force);
-	void addRigidBody(Vec3 position, Vec3 size, int mass);
+	void addRigidBody(Vec3 position, Vec3 size, double mass);
 	void setOrientationOf(int i,Quat orientation);
 	void setVelocityOf(int i, Vec3 velocity);
 
-private:
+
+	void printResults();
+
+//private:
+
 	// Attributes
-	// add your RigidBodySystem data members, for e.g.,
-	// RigidBodySystem * m_pRigidBodySystem; 
 	Vec3 m_externalForce;
+	std::vector<Rigidbody> m_rigidbodies;
+	std::vector<Rigidbody> m_barriers;
+	std::vector<Force> m_forces;
+	bool doSimulation;
+	bool m_collision = true;
+	Vec3 m_gravity;
 
 	// UI Attributes
 	Point2D m_mouse;
 	Point2D m_trackmouse;
 	Point2D m_oldtrackmouse;
-	};
+
+	Vec3 m_movableObjectPos;
+	Vec3 m_movableObjectFinalPos;
+
+};
 #endif

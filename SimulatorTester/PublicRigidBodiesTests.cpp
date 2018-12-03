@@ -54,8 +54,9 @@ namespace SimulatorTester
 			RigidBodySystemSimulator * rbss = new RigidBodySystemSimulator();
 			setupBaseTest(rbss);
 			rbss->applyForceOnBody(0,Vec3(0.0,0.0f,0.0),Vec3(0,0,200));
-			for(int i =0; i < 4;i++)
+			for (int i = 0; i < 4; i++) {
 				rbss->simulateTimestep(0.1);
+			}
 			Vec3 pos = rbss->getPositionOfRigidBody(0);
 			Assert::AreEqual(-0.1f,(float)pos.x,0.0001f,L"X coordinate of body 0 is not right",LINE_INFO());
 			Assert::AreEqual(-0.2f,(float)pos.y,0.0001f,L"Y coordinate of body 0 is not right",LINE_INFO());
