@@ -64,7 +64,7 @@ public:
 
 	matrix4x4<Scalar> getRotMat() const
 	{
-		DirectX::XMVECTOR v  = XMVectorSet(x,y,z,w);
+		DirectX::XMVECTOR v  = DirectX::XMVectorSet(x,y,z,w);
 		matrix4x4<Scalar> M(DirectX::XMMatrixRotationQuaternion(v));
 		return M;
 	}

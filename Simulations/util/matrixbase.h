@@ -187,6 +187,7 @@ inline matrix4x4<Scalar>::matrix4x4( const matrix4x4<Scalar> &v )
 template<class Scalar>
 inline matrix4x4<Scalar>::matrix4x4(DirectX::XMMATRIX &m )
 {
+	using namespace DirectX;
 	for(int i =0;i<4;i++)
 	{
 		value[i][0] = XMVectorGetX(m.r[i]); value[i][1] = XMVectorGetY(m.r[i]); value[i][2] = XMVectorGetZ(m.r[i]); value[i][3] = XMVectorGetW(m.r[i]);
