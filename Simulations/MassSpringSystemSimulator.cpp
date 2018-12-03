@@ -4,7 +4,6 @@
 
 MassSpringSystemSimulator::MassSpringSystemSimulator()
 {
-	setupSystem1();
 }
 
 const char * MassSpringSystemSimulator::getTestCasesStr()
