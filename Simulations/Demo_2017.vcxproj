@@ -23,7 +23,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Simulations</RootNamespace>
     <ProjectName>Simulations</ProjectName>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -224,6 +224,8 @@
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CombinedSystemSimulator.cpp" />
+    <ClCompile Include="CoupledSystem.cpp" />
     <ClCompile Include="Integrator.cpp" />
     <ClCompile Include="MassSpringSystem.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
@@ -235,6 +237,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="collisionDetect.h" />
+    <ClInclude Include="CombinedSystemSimulator.h" />
+    <ClInclude Include="CoupledSystem.h" />
     <ClInclude Include="DrawingUtilitiesClass.h" />
     <ClInclude Include="Integrator.h" />
     <ClInclude Include="MassSpringSystemSimulator.h" />
