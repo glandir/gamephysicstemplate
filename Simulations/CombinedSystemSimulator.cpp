@@ -61,7 +61,7 @@ void CombinedSystemSimulator::initUI(DrawingUtilitiesClass * DUC)
 	TwAddVarRW(DUC->g_pTweakBar, "Stiffness", TW_TYPE_FLOAT, &m_fStiffness, "step=0.001  min=0");
 	TwAddVarRW(DUC->g_pTweakBar, "ForceScale", TW_TYPE_FLOAT, &m_fForceScaling, "step=0.01   min=0");
 	TwAddVarRW(DUC->g_pTweakBar, "Damping", TW_TYPE_FLOAT, &m_fDamping, "step=0.001  min=0");
-	TwType TW_TYPE_ACCELERATOR = TwDefineEnumFromString("Accelerator", "None (n^2),Grid (m+n),KdTree (nlogn)");
+	TwType TW_TYPE_ACCELERATOR = TwDefineEnumFromString("Accelerator", "None (n^2),Grid (m+n)");
 	TwAddVarRW(DUC->g_pTweakBar, "Accelerator", TW_TYPE_ACCELERATOR, &m_iAccelerator, "");
 	TwType TW_TYPE_KERNEL = TwDefineEnumFromString("Kernel", "Constant,Linear,Quadratic,WeakElectric,Electric");
 	TwAddVarRW(DUC->g_pTweakBar, "Kernel", TW_TYPE_KERNEL, &m_iKernel, "");

@@ -95,6 +95,88 @@ Collisions getCollisions(const Points& points) {
 	return collisions;
 }
 
+
+
+std::vector<Collision> getCollisionsWithGrid(const Points& points, float radius)
+{
+	Collisions collisions;
+	float gridspacing = 2.0f * radius;
+	int gridsize = (int)std::ceil(1.0f / gridspacing + 1E-3f);
+	int gridcells = gridsize * gridsize * gridsize;
+	static int bucketsize = 10;
+	static std::vector<int> counters;
+	static std::vector<int> buckets;
+	static std::vector<int> usedBuckets;
+	counters.resize(gridcells);
+	buckets.resize(gridcells * bucketsize);
+	for (int& c : counters) c = 0;
+	usedBuckets.clear();
+
+	bool bucketsTooSmall = false;
+	for (size_t i = 0; i < points.size(); i++)
+	{
+		int x = (int)((points[i].pos.x + 0.5f) / gridspacing);
+		int y = (int)((points[i].pos.y + 0.5f) / gridspacing);
+		int z = (int)((points[i].pos.z + 0.5f) / gridspacing);
+
+		int b = (z * gridsize + y) * gridsize + x;
+		int n = counters[b];
+		if (n < bucketsize)
+		{
+			buckets[b * bucketsize + n] = (int)i;
+			if (counters[b] == 0) usedBuckets.push_back(b);
+			counters[b]++;
+		}
+		else
+		{
+			std::cout << "Bucket overflow with bucketsize " << bucketsize << std::endl;
+			bucketsTooSmall = true;
+		}
+	}
+
+	nVec3i off[] = { nVec3i(0,0,0) };
+
+	for (int b : usedBuckets)
+	{
+		int x = (b % gridsize);
+		int y = (b % (gridsize*gridsize)) / gridsize;
+		int z = b / (gridsize*gridsize);
+
+		for (int w = 0; w < 14; w++)
+		{
+			int a = (w % 3) - 1;
+			int b = (w % 9) / 3 - 1;
+			int c = w / 9 - 1;
+
+			if (x + a >= 0 && y + b >= 0 && z + c >= 0 &&
+				x + a < gridsize && y + b < gridsize && z + c < gridsize)
+			{
+				int b1 = (z    * gridsize + y) * gridsize + x;
+				int b2 = ((z + c) * gridsize + (y + b)) * gridsize + (x + a);
+
+				int n1 = counters[b1], n2 = counters[b2];
+
+				for (int i1 = 0; i1 < n1; i1++)
+					for (int i2 = 0; i2 < n2; i2++)
+					{
+						int j1 = buckets[b1 * bucketsize + i1];
+						int j2 = buckets[b2 * bucketsize + i2];
+
+						if (w < 13 || j1 < j2)
+						{
+							collisions.emplace_back(j1, j2);
+						}
+					}
+			}
+		}
+	}
+
+	if (bucketsTooSmall) bucketsize++;
+
+	return collisions;
+}
+
+
 void collisionResponse(const Collisions& collisions, const Points& points, Forces& forces,
 	float radius, Kernel kernel, float forceScale)
 {	
@@ -132,7 +214,14 @@ void CoupledSystem::advance(float dt, float mass, float radius, float stiffness,
 
 	applySpringForces(points, springs, forces, stiffness);
 
-	Collisions collisions = getCollisions(points);
+	Collisions collisions;
+	if (accelerator == 0) {
+		collisions = getCollisions(points);
+	}
+	else {
+		collisions = getCollisionsWithGrid(points, radius);
+	}
+
 	collisionResponse(collisions, points, forces, radius, kernel, forceScaling);
 	applyDampingForce(forces, points, damping);
 
